@@ -1,20 +1,17 @@
+// from data.js
+var tableData = data;
 // Select the Filter Table button
 var button = d3.select(".btn-default");
 
-// from data.js
-var tableData = data;
-
-// Get a reference to where the table should go
-var tableBody = d3.select('tbody')
-
-button
-.on("click", function() {
+button.on("click", function() {
 
 // Prevent the page from refreshing
 d3.event.preventDefault();
+
+// // Select 
 var tableBody = d3.select('tbody')
 
-//Clear previous entries
+// //Clear previous entries
 tableBody.html("")
 
 // Select the input element and get the raw HTML node (box where date is entered)
@@ -23,17 +20,15 @@ var inputElement = d3.select("#datetime");
 var inputValue = inputElement.property("value");
 console.log(inputValue)
 // Use the input date to pull data from the table
-d3.select("h1>span").text(inputValue);
 // Loop through data, append one row for each data item in data file
-tableData
-    .filter((ufoSitings)=> {
-        return ufoSitings.datetime = inputValue
-    })
-    .forEach((ufoSitings) => {
+var tableDataForDate = tableData.filter((value) => value.datetime === inputValue)
+console.log(tableDataForDate);
+
+tableDataForDate.forEach((tableDataForDate) => {
     var row = tableBody.append('tr')
-        Object.entries(ufoSitings).forEach(([key,value]) => {
-            var cell = tableBody.append('td')
+        Object.entries(tableDataForDate).forEach(([key,value]) => {
+            var cell = row.append('td')
             cell.text(value)
-        })
+        })  
     });
-});
+}); 
